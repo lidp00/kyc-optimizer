@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Set
+from typing import List, Set, Dict, Any
 
 @dataclass
 class SubTask:
@@ -54,3 +54,34 @@ class Agent:
     max_tier: int
     shift_start: int
     shift_end: int
+
+@dataclass
+class ScheduledTask:
+    """
+    Represents a task that has been successfully scheduled for an agent.
+    Unlike SubTask (which is a requirement), this is the actual output/result.
+
+    Attributes:
+        ticket_id (str): ID of the processed ticket.
+        task_id (str): ID of the scheduled task.
+        task_name (str): Name of the specific operation.
+        start_time (int): Scheduled start time (in minutes).
+        end_time (int): Scheduled end time (in minutes).
+    """
+    ticket_id: str
+    task_id: str
+    task_name: str
+    start_time: int
+    end_time: int
+
+@dataclass
+class SolverResult:
+    """
+    Standardized output from any scheduling solver.
+
+    Attributes:
+        schedule (Dict[str, List[ScheduledTask]]): Mapping of agent_id to their assigned tasks.
+        metrics (Dict[str, Any]): Flexible dictionary for KPIs (e.g., unassigned count, compute time).
+    """
+    schedule: Dict[str, List[ScheduledTask]]
+    metrics: Dict[str, Any]
